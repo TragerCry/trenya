@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ЖЕЛЕЗНЫЙ ПЛАН | МАССА И СИЛА</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0b0b;
+            font-family: 'Segoe UI', 'Roboto', 'Impact', 'Arial Black', sans-serif;
+            color: #e0e0e0;
+            padding: 30px 20px;
+        }
+
+        /* ОГРОМНЫЙ БРУТАЛЬНЫЙ КОНТЕЙНЕР */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* ХЕДЕР – БЕТОН без лишних статов */
+        .header {
+            border-bottom: 5px solid #c33c2e;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: #f2f2f2;
+            text-shadow: 4px 4px 0px #2a2a2a;
+            background: linear-gradient(135deg, #fff 30%, #c33c2e 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* СЕТКА ДНЕЙ */
+        .grid-days {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        /* КАРТОЧКА ДНЯ – БРУТАЛЬНЫЙ БЛОК */
+        .day-card {
+            background: #111;
+            border: 1px solid #2c2c2c;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.6);
+            transition: 0.2s;
+        }
+
+        .day-header {
+            background: #1a1a1a;
+            padding: 20px 25px;
+            border-left: 10px solid #c33c2e;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #2c2c2c;
+        }
+
+        .day-name {
+            font-size: 2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #f5f5f5;
+        }
+
+        .day-focus {
+            color: #c33c2e;
+            font-weight: bold;
+            background: #00000070;
+            padding: 4px 12px;
+            font-size: 0.9rem;
+            border-radius: 0px;
+            border-left: 2px solid #c33c2e;
+        }
+
+        /* ТАБЛИЦА УПРАЖНЕНИЙ */
+        .exercises-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .exercises-table th {
+            background: #0f0f0f;
+            text-align: left;
+            padding: 15px 12px;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #aaa;
+            border-bottom: 2px solid #2c2c2c;
+            font-weight: 600;
+        }
+
+        .exercises-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #222;
+            vertical-align: middle;
+            font-weight: 500;
+        }
+
+        .exercise-name {
+            font-weight: 800;
+            font-size: 1.15rem;
+            color: #ffffff;
+            width: 28%;
+        }
+
+        .target-info {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #c33c2e;
+            font-weight: bold;
+            width: 20%;
+        }
+
+        /* ПОЛЯ ВВОДА – БРУТАЛЬНЫЕ, КРУПНЫЕ */
+        .input-field {
+            background: #050505;
+            border: 1px solid #3a3a3a;
+            padding: 10px 12px;
+            color: #f0f0f0;
+            font-weight: bold;
+            font-size: 0.9rem;
+            width: 85px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            transition: 0.2s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #c33c2e;
+            box-shadow: 0 0 0 2px #c33c2e50;
+        }
+
+        .comment-input {
+            background: #050505;
+            border: 1px solid #2c2c2c;
+            padding: 10px 12px;
+            color: #cfcfcf;
+            width: 98%;
+            font-size: 0.85rem;
+            font-family: 'Segoe UI', monospace;
+        }
+
+        .comment-input:focus {
+            border-color: #c33c2e;
+            outline: none;
+        }
+
+        .set-weight-cell, .set-reps-cell {
+            text-align: center;
+        }
+
+        .small-note {
+            font-size: 0.7rem;
+            color: #555;
+            display: block;
+            margin-top: 3px;
+        }
+
+        /* футер */
+        .footer-note {
+            margin-top: 50px;
+            background: #0c0c0c;
+            border-top: 3px solid #c33c2e;
+            padding: 20px;
+            text-align: center;
+            font-family: monospace;
+            font-weight: bold;
+            color: #aaa;
+        }
+
+        @media (max-width: 750px) {
+            body {
+                padding: 15px;
+            }
+            .day-name {
+                font-size: 1.5rem;
+            }
+            .exercises-table th, .exercises-table td {
+                padding: 12px 6px;
+            }
+            .input-field {
+                width: 65px;
+                padding: 6px 8px;
+            }
+            .exercise-name {
+                font-size: 0.95rem;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c33c2e;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>IRON MASSACRE</h1>
+        <!-- Блок с возрастом/весом УДАЛЕН по требованию -->
+    </div>
+
+    <div class="grid-days">
+        <!-- ПОНЕДЕЛЬНИК: ТЯЖЕЛЫЙ НИЗ + СКРУЧИВАНИЯ -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-name">ПН — ТЯЖЁЛЫЙ НИЗ + КОР</div>
+                <div class="day-focus">🔥 ПРИСЕД | РУМЫНКА | СКРУЧИВАНИЯ (УДАР ПО ПРЕССУ)</div>
+            </div>
+            <table class="exercises-table">
+                <thead>
+                    <tr><th>УПРАЖНЕНИЕ</th><th>ЦЕЛЕВОЙ ДИАПАЗОН</th><th>МОЙ ВЕС (кг)</th><th>МОИ ПОДХОДЫ/ПОВТ</th><th>КОММЕНТАРИЙ (заметки, боль, отказ)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="exercise-name">🏋️ ПРИСЕДАНИЯ СО ШТАНГОЙ</td><td class="target-info">85кг x5 / 90кг x3 / 85кг x4<br><span class="small-note">*3 раб. подхода</span></td><td class="set-weight-cell"><input type="text" class="input-field" placeholder="___ кг" id="squat_weight"></td><td class="set-reps-cell"><input type="text" class="input-field" placeholder="повторы" id="squat_reps"></td><td><input type="text" class="comment-input" placeholder="+ коммент (нагрузка, связки...)" id="squat_comm"></td></tr>
+                    <tr><td class="exercise-name">🦵 РУМЫНСКАЯ ТЯГА</td><td class="target-info">70кг x 8-10 повтор. / 3 подхода</td><td><input type="text" class="input-field" placeholder="___ кг" id="rdl_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="rdl_reps"></td><td><input type="text" class="comment-input" placeholder="чувство хамстринга" id="rdl_comm"></td></tr>
+                    <tr><td class="exercise-name">🏃 ВЫПАДЫ С ГАНТЕЛЯМИ</td><td class="target-info">16-18кг x 10 (каждая нога) / 3 подхода</td><td><input type="text" class="input-field" placeholder="___ кг" id="lunges_weight"></td><td><input type="text" class="input-field" placeholder="на ногу" id="lunges_reps"></td><td><input type="text" class="comment-input" placeholder="баланс" id="lunges_comm"></td></tr>
+                    <tr><td class="exercise-name">🐮 ПОДЪЁМЫ НА НОСКИ СТОЯ</td><td class="target-info">100кг x 15-20 / 4 подхода</td><td><input type="text" class="input-field" placeholder="___ кг" id="calves_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="calves_reps"></td><td><input type="text" class="comment-input" placeholder="жжение" id="calves_comm"></td></tr>
+                    <tr><td class="exercise-name">💥 СКРУЧИВАНИЯ (пресс)</td><td class="target-info">вес тела / 3-4 подхода по 20-25 повторений <br><span class="small-note">+доп. вес по желанию</span></td><td><input type="text" class="input-field" placeholder="+ кг" id="crunch_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="crunch_reps"></td><td><input type="text" class="comment-input" placeholder="жжение в прессе, дыхание" id="crunch_comm"></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- СРЕДА: ЖИМОВАЯ ПРОРАБОТКА (ГРУДЬ, ПЛЕЧИ, ТРИЦЕПС) + ДОБАВЛЕНЫ ТРИЦЕПС-УПРАЖНЕНИЯ -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-name">СР — ЖИМОВАЯ МОЩЬ + ТРИЦЕПС</div>
+                <div class="day-focus">💪 ПРОБИВАЕМ ПЛАТО | ФРАНЦУЗСКИЙ ЖИМ + РАЗГИБАНИЯ</div>
+            </div>
+            <table class="exercises-table">
+                <thead><tr><th>УПРАЖНЕНИЕ</th><th>ЦЕЛЕВОЙ ДИАПАЗОН</th><th>МОЙ ВЕС (кг)</th><th>МОИ ПОДХОДЫ/ПОВТ</th><th>КОММЕНТАРИЙ</th></tr></thead>
+                <tbody>
+                    <tr><td class="exercise-name">🏆 ЖИМ ЛЕЖА (прогрессия)</td><td class="target-info">70кг x6 / 70 x5 / 65кг x8 (отказ) ⬅ 5 подходов всего</td><td><input type="text" class="input-field" placeholder="___ кг" id="bench_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="bench_reps"></td><td><input type="text" class="comment-input" placeholder="контроль негатива" id="bench_comm"></td></tr>
+                    <tr><td class="exercise-name">📐 ЖИМ ГАНТЕЛЕЙ НА НАКЛОННОЙ 30°</td><td class="target-info">20кг x 10-12 повтор. / 3 подхода</td><td><input type="text" class="input-field" placeholder="___ кг" id="db_incline_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="db_incline_reps"></td><td><input type="text" class="comment-input" placeholder="растяжка" id="db_incline_comm"></td></tr>
+                    <tr><td class="exercise-name">⚡ ПЛЕЧИ: МАХИ В СТОРОНЫ + ЖИМ СИДЯ (суперсет)</td><td class="target-info">Махи 9кг x 12-15 / Жим сидя 12-14кг x10-12 / 3 сета</td><td><input type="text" class="input-field" placeholder="махи/жим" id="shoulders_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="shoulders_reps"></td><td><input type="text" class="comment-input" placeholder="суперсет, пампинг" id="shoulders_comm"></td></tr>
+                    <tr><td class="exercise-name">🥇 БРУСЬЯ С ВЕСОМ (+цепь/рюкзак)</td><td class="target-info">+5кг x 10-12 / 3 подхода (вместо 15 раз без веса)</td><td><input type="text" class="input-field" placeholder="+ ___ кг" id="dips_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="dips_reps"></td><td><input type="text" class="comment-input" placeholder="трицепс/грудь" id="dips_comm"></td></tr>
+                    <!-- НОВЫЕ УПРАЖНЕНИЯ НА ТРИЦЕПС (среда) -->
+                    <tr><td class="exercise-name">🔨 ФРАНЦУЗСКИЙ ЖИМ ЛЁЖА (EZ-штанга/гантели)</td><td class="target-info">25-30кг x 10-12 / 3 подхода <span class="small-note">растяжка трицепса</span></td><td><input type="text" class="input-field" placeholder="___ кг" id="french_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="french_reps"></td><td><input type="text" class="comment-input" placeholder="локти внутрь" id="french_comm"></td></tr>
+                    <tr><td class="exercise-name">⛓️ РАЗГИБАНИЯ НА ТРИЦЕПС В БЛОКЕ (канат)</td><td class="target-info">20-25кг x 12-15 / 3 подхода <span class="small-note">добивка</span></td><td><input type="text" class="input-field" placeholder="___ кг" id="pushdown_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="pushdown_reps"></td><td><input type="text" class="comment-input" placeholder="полная амплитуда" id="pushdown_comm"></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ПЯТНИЦА: СПИНА + БИЦЕПС + ДОБАВЛЕНЫ УПРАЖНЕНИЯ (ШРАГИ + МОЛОТКИ) -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-name">ПТ — СПИНА / БИЦЕПС / ЛОВУШКИ</div>
+                <div class="day-focus">🔥 ШИРИНА + ТОЛЩИНА | ШРАГИ | МОЛОТКИ</div>
+            </div>
+            <table class="exercises-table">
+                <thead><tr><th>УПРАЖНЕНИЕ</th><th>ЦЕЛЕВОЙ ДИАПАЗОН</th><th>МОЙ ВЕС (кг)</th><th>МОИ ПОДХОДЫ/ПОВТ</th><th>КОММЕНТАРИЙ</th></tr></thead>
+                <tbody>
+                    <tr><td class="exercise-name">🦍 ПОДТЯГИВАНИЯ С ОТЯГОЩЕНИЕМ</td><td class="target-info">+7.5кг х 8 (пауза внизу) / 3 подхода (не 12 раз)</td><td><input type="text" class="input-field" placeholder="+ ___ кг" id="pull_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="pull_reps"></td><td><input type="text" class="comment-input" placeholder="ширина хвата" id="pull_comm"></td></tr>
+                    <tr><td class="exercise-name">🎯 ТЯГА ШТАНГИ В НАКЛОНЕ</td><td class="target-info">50кг x 10-12 / 3 подхода (лопатки)</td><td><input type="text" class="input-field" placeholder="___ кг" id="barbell_row_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="barbell_row_reps"></td><td><input type="text" class="comment-input" placeholder="без рывков" id="barbell_row_comm"></td></tr>
+                    <tr><td class="exercise-name">🔽 ТЯГА НИЖНЕГО БЛОКА К ПОЯСУ</td><td class="target-info">55-60кг x 12-15 / 3 подхода</td><td><input type="text" class="input-field" placeholder="___ кг" id="low_row_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="low_row_reps"></td><td><input type="text" class="comment-input" placeholder="сведение лопаток" id="low_row_comm"></td></tr>
+                    <!-- ДОБАВЛЕНЫ ШРАГИ ДЛЯ ЛОВУШЕК -->
+                    <tr><td class="exercise-name">⛰️ ШРАГИ С ГАНТЕЛЯМИ / ШТАНГОЙ (трапеции)</td><td class="target-info">45-55кг (штанга) x 12-15 / 3 подхода<br><span class="small-note">пик сокращения</span></td><td><input type="text" class="input-field" placeholder="___ кг" id="shrugs_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="shrugs_reps"></td><td><input type="text" class="comment-input" placeholder="держать спину ровно" id="shrugs_comm"></td></tr>
+                    <tr><td class="exercise-name">💪 СГИБАНИЯ НА БИЦЕПС (гантели)</td><td class="target-info">17кг (чисто) / 8-10 повтор. / 3 подхода, супинация</td><td><input type="text" class="input-field" placeholder="___ кг" id="bicep_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="bicep_reps"></td><td><input type="text" class="comment-input" placeholder="без читинга" id="bicep_comm"></td></tr>
+                    <!-- ДОБАВЛЕНЫ МОЛОТКОВЫЕ СГИБАНИЯ (брахиалис) -->
+                    <tr><td class="exercise-name">🔨 МОЛОТКИ С ГАНТЕЛЯМИ (brachialis)</td><td class="target-info">14-16кг x 10-12 / 3 подхода <span class="small-note">нейтральный хват</span></td><td><input type="text" class="input-field" placeholder="___ кг" id="hammer_weight"></td><td><input type="text" class="input-field" placeholder="подх/повт" id="hammer_reps"></td><td><input type="text" class="comment-input" placeholder="напряжение плеча" id="hammer_comm"></td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Дополнительный блок: ЖУРНАЛ ПРОГРЕССИИ -->
+        <div class="day-card" style="border-left: 3px solid #c33c2e;">
+            <div class="day-header">
+                <div class="day-name">📝 ЖУРНАЛ СИЛЫ & ДОБАВКИ</div>
+                <div class="day-focus">МЕТОД ДВОЙНОЙ ПРОГРЕССИИ</div>
+            </div>
+            <div style="padding: 20px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: space-between;">
+                    <div style="flex:1; min-width: 200px;">
+                        <label style="color:#c33c2e; font-weight: bold; display: block;">ЖИМ ЛЕЖА (план)</label>
+                        <input type="text" class="comment-input" style="width:100%; margin-top: 5px;" id="bench_note" placeholder="70x6 → 72.5x6 → 75x4 ... запись">
+                    </div>
+                    <div style="flex:1; min-width: 200px;">
+                        <label style="color:#c33c2e; font-weight: bold; display: block;">ПОДТЯГИВАНИЯ + вес</label>
+                        <input type="text" class="comment-input" style="width:100%; margin-top: 5px;" id="pull_note" placeholder="+8кг на 8 раз, прогресс">
+                    </div>
+                    <div style="flex:1; min-width: 200px;">
+                        <label style="color:#c33c2e; font-weight: bold; display: block;">ПРИСЕД / САМОЧУВСТВИЕ</label>
+                        <input type="text" class="comment-input" style="width:100%; margin-top: 5px;" id="squat_note" placeholder="добавить присед 90кг х3">
+                    </div>
+                </div>
+                <div style="margin-top: 20px; background: #0b0b0b; padding: 12px; border: 1px dashed #c33c2e40;">
+                    <span style="font-weight: bold; font-size: 0.8rem;">⚙️ БРУТАЛЬНЫЕ ПРАВИЛА:</span>
+                    <span style="font-size: 0.75rem; display: block; color:#aaa;">🔹 Отдых 2-3 мин в базовых 🔹 Калории 2600-2800 🔹 Сон 8ч 🔹 Каждая тренировка - добавляй вес/повтор по методу двойной прогрессии.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-note">
+        💀 АГРЕССИЯ | МАССА | ЖЕЛЕЗО — ДНЕВНИК СИЛЫ. ВСЕ ПОЛЯ СОХРАНЯЮТСЯ ЛОКАЛЬНО 💀
+    </div>
+</div>
+
+<script>
+    // Функция для автосохранения абсолютно всех полей ввода в localStorage
+    function saveAllData() {
+        const inputs = document.querySelectorAll('input, textarea');
+        const data = {};
+        inputs.forEach(input => {
+            if (input.id) {
+                data[input.id] = input.value;
+            } else {
+                const name = input.name || input.getAttribute('data-custom');
+                if (name) data[name] = input.value;
+            }
+        });
+        localStorage.setItem('ironTrainingLog', JSON.stringify(data));
+    }
+
+    function loadAllData() {
+        const savedRaw = localStorage.getItem('ironTrainingLog');
+        if (!savedRaw) return;
+        try {
+            const data = JSON.parse(savedRaw);
+            for (const [id, value] of Object.entries(data)) {
+                const element = document.getElementById(id);
+                if (element && (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA')) {
+                    element.value = value;
+                }
+            }
+        } catch(e) { console.warn(e); }
+    }
+
+    function attachAutoSave() {
+        const allFields = document.querySelectorAll('input, textarea');
+        allFields.forEach(field => {
+            field.addEventListener('input', () => { saveAllData(); });
+            field.addEventListener('change', () => { saveAllData(); });
+        });
+    }
+
+    function setDefaultExampleValuesIfEmpty() {
+        const hasSavedData = localStorage.getItem('ironTrainingLog');
+        if (hasSavedData) return;
+        
+        const defaultMap = {
+            squat_weight: "85", squat_reps: "5,3,4", crunch_weight: "0", crunch_reps: "4x22",
+            rdl_weight: "70", rdl_reps: "3x10", lunges_weight: "17", lunges_reps: "3x10",
+            calves_weight: "100", calves_reps: "4x18", bench_weight: "70/65", bench_reps: "6,5,8",
+            db_incline_weight: "20", db_incline_reps: "3x11", shoulders_weight: "9/14", shoulders_reps: "3x12+10",
+            dips_weight: "+5", dips_reps: "3x11", french_weight: "28", french_reps: "3x11",
+            pushdown_weight: "22", pushdown_reps: "3x14", pull_weight: "+7.5", pull_reps: "3x8",
+            barbell_row_weight: "50", barbell_row_reps: "3x11", low_row_weight: "57", low_row_reps: "3x13",
+            shrugs_weight: "50", shrugs_reps: "3x14", bicep_weight: "17", bicep_reps: "3x9",
+            hammer_weight: "15", hammer_reps: "3x11",
+            bench_note: "70x6 → след.неделя 72.5x6", pull_note: "+7.5 на 8 → +8кг на 7-8", squat_note: "цель 90х3"
+        };
+        for (const [id, val] of Object.entries(defaultMap)) {
+            const el = document.getElementById(id);
+            if (el && !el.value) {
+                el.value = val;
+            }
+        }
+        saveAllData();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        loadAllData();
+        const anyData = localStorage.getItem('ironTrainingLog');
+        if (!anyData) {
+            setDefaultExampleValuesIfEmpty();
+        }
+        attachAutoSave();
+        window.addEventListener('beforeunload', () => { saveAllData(); });
+    });
+</script>
+</body>
+</html>
