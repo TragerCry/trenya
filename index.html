@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>IRON MASSACRE | Тренировочный дневник</title>
+    <title>IRON MASSACRE | Месячный дневник</title>
     <style>
         * {
             margin: 0;
@@ -24,10 +24,9 @@
             margin: 0 auto;
         }
 
-        /* ХЕДЕР */
         .header {
             border-bottom: 3px solid #e05a3a;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             padding-bottom: 12px;
         }
 
@@ -42,30 +41,168 @@
             color: transparent;
         }
 
-        /* ДНИ - карточки */
-        .day-card {
+        /* АГРЕССИВНАЯ ШКАЛА МЕСЯЧНОГО ПРОГРЕССА */
+        .month-progress {
             background: #121212;
-            border-radius: 18px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            border: 1px solid #252525;
+            border-radius: 20px;
+            padding: 20px 16px;
+            margin-bottom: 24px;
+            border: 1px solid #e05a3a;
+            box-shadow: 0 0 10px rgba(224, 90, 58, 0.2);
         }
 
-        /* ШАПКА ДНЯ - кликабельная шторка */
-        .day-header {
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #e05a3a;
+            text-shadow: 0 0 4px #e05a3a;
+        }
+
+        .progress-value {
+            font-size: 1.4rem;
+            font-weight: 900;
+            font-family: monospace;
+            color: #ffaa00;
+            text-shadow: 0 0 6px #ff6600;
+        }
+
+        .fire-bar-container {
+            position: relative;
+            background: #1a1a1a;
+            border-radius: 40px;
+            height: 28px;
+            overflow: visible;
+            margin-top: 8px;
+            border: 1px solid #3a3a3a;
+        }
+
+        .fire-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #ff4500, #ff7700, #ffbb00);
+            border-radius: 40px;
+            transition: width 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 0 12px #ff5500;
+            position: relative;
+        }
+
+        /* Искра/огонь на конце полоски */
+        .fire-spark {
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ffcc00, #ff3300);
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.9;
+            transition: all 0.2s;
+            pointer-events: none;
+            box-shadow: 0 0 12px #ff9900;
+        }
+
+        /* Анимация огня при 100% */
+        .fire-bar-fill.complete {
+            background: linear-gradient(90deg, #ff2200, #ff4400, #ff8800);
+            box-shadow: 0 0 20px #ff3300, inset 0 0 8px rgba(255,255,200,0.6);
+            animation: intenseGlow 0.6s ease-in-out infinite alternate;
+        }
+
+        .fire-bar-fill.complete .fire-spark {
+            width: 28px;
+            height: 28px;
+            background: radial-gradient(circle, #ffffaa, #ff5500);
+            filter: blur(4px);
+            animation: sparkPulse 0.5s ease-in-out infinite alternate;
+            box-shadow: 0 0 20px #ffaa00;
+        }
+
+        @keyframes intenseGlow {
+            0% { box-shadow: 0 0 8px #ff3300, inset 0 0 4px #ffaa00; }
+            100% { box-shadow: 0 0 28px #ff0000, inset 0 0 16px #ffdd88; }
+        }
+
+        @keyframes sparkPulse {
+            0% { transform: translateY(-50%) scale(0.9); opacity: 0.8; filter: blur(3px); }
+            100% { transform: translateY(-50%) scale(1.3); opacity: 1; filter: blur(5px); }
+        }
+
+        /* ВСЕ ОСТАЛЬНЫЕ СТИЛИ (без недельной шкалы) */
+        .week-block {
+            background: #121212;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #252525;
+            overflow: hidden;
+        }
+
+        .week-header {
             background: #1c1c1c;
             padding: 16px 18px;
             cursor: pointer;
-            transition: background 0.2s;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-left: 5px solid #e05a3a;
         }
 
-        .day-header:active {
+        .week-header:active {
             background: #262626;
+        }
+
+        .week-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #f0f0f0;
+        }
+
+        .week-stats {
+            font-size: 0.7rem;
+            color: #e05a3a;
+            margin-top: 4px;
+        }
+
+        .week-toggle {
+            font-size: 1.4rem;
+            color: #e05a3a;
+        }
+
+        .week-content {
+            display: block;
+            padding: 8px 0;
+        }
+
+        .week-content.collapsed {
+            display: none;
+        }
+
+        .day-card {
+            background: #0f0f0f;
+            border-radius: 16px;
+            margin: 12px 14px;
+            border: 1px solid #252525;
+            overflow: hidden;
+        }
+
+        .day-header {
+            background: #1a1a1a;
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #e05a3a;
         }
 
         .day-info {
@@ -73,47 +210,66 @@
         }
 
         .day-name {
-            font-size: 1.4rem;
             font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 1rem;
             color: #f0f0f0;
         }
 
         .day-focus {
+            font-size: 0.6rem;
             color: #e05a3a;
-            font-weight: 600;
-            font-size: 0.7rem;
-            margin-top: 4px;
-            text-transform: uppercase;
+            margin-top: 2px;
         }
 
-        .toggle-icon {
-            font-size: 1.6rem;
+        .day-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .check-circle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #252525;
+            border: 2px solid #4a4a4a;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+
+        .check-circle.checked {
+            background: #2ea043;
+            border-color: #2ea043;
+            box-shadow: 0 0 6px #2ea043;
+        }
+
+        .check-circle:active {
+            transform: scale(0.92);
+        }
+
+        .day-toggle {
+            font-size: 1.2rem;
             color: #e05a3a;
-            transition: transform 0.2s;
+            cursor: pointer;
             width: 32px;
             text-align: center;
         }
 
-        /* Контент дня (скрывается/показывается) */
         .day-content {
             display: block;
-            padding: 8px 0 12px 0;
+            padding: 8px 12px 16px;
         }
 
         .day-content.collapsed {
             display: none;
         }
 
-        /* КАРТОЧКА УПРАЖНЕНИЯ */
         .exercise-card {
-            background: #0f0f0f;
-            margin: 12px 14px;
-            padding: 14px;
-            border-radius: 16px;
+            background: #0a0a0a;
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 14px;
             border: 1px solid #252525;
-            transition: 0.15s;
         }
 
         .exercise-header {
@@ -127,8 +283,7 @@
 
         .exercise-name {
             font-weight: 800;
-            font-size: 1rem;
-            color: #ffffff;
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -141,14 +296,8 @@
             border-radius: 20px;
             padding: 4px 12px;
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             border: 0.5px solid #e05a3a60;
-            transition: 0.15s;
-        }
-
-        .clickable-name:active {
-            background: #e05a3a;
-            color: white;
         }
 
         .reset-alt-btn {
@@ -156,24 +305,18 @@
             border: none;
             color: #888;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem;
             padding: 4px 10px;
             border-radius: 30px;
-            transition: 0.15s;
-        }
-
-        .reset-alt-btn:active {
-            color: #e05a3a;
-            background: #2a2a2a;
         }
 
         .target-info {
             font-family: monospace;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #e05a3a;
-            background: #1a1a1a;
-            padding: 6px 12px;
-            border-radius: 20px;
+            background: #121212;
+            padding: 5px 10px;
+            border-radius: 16px;
             display: inline-block;
             margin-bottom: 12px;
         }
@@ -181,64 +324,43 @@
         .input-row {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin: 12px 0;
         }
 
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
         }
 
         .input-group label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
             color: #aaa;
-            letter-spacing: 0.8px;
             font-weight: 600;
         }
 
         .input-field {
             background: #060606;
             border: 1px solid #2c2c2c;
-            padding: 12px 12px;
+            padding: 10px 12px;
             color: #f2f2f2;
-            font-weight: 500;
-            font-size: 0.95rem;
-            border-radius: 14px;
+            font-size: 0.9rem;
+            border-radius: 12px;
             width: 100%;
             font-family: monospace;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: #e05a3a;
-            background: #0c0c0c;
         }
 
         .comment-input {
             background: #060606;
             border: 1px solid #2c2c2c;
-            padding: 12px 12px;
+            padding: 10px 12px;
             color: #cfcfcf;
             width: 100%;
-            font-size: 0.85rem;
-            border-radius: 14px;
+            font-size: 0.8rem;
+            border-radius: 12px;
             margin-top: 4px;
-        }
-
-        .comment-input:focus {
-            border-color: #e05a3a;
-            outline: none;
-        }
-
-        .journal-card {
-            background: #0f0f0f;
-            margin: 16px;
-            padding: 16px;
-            border-radius: 18px;
-            border: 1px solid #2c2c2c;
         }
 
         .footer-note {
@@ -248,12 +370,45 @@
             padding: 14px;
             text-align: center;
             font-size: 0.7rem;
-            font-weight: bold;
             color: #aaa;
             border-radius: 40px;
         }
 
-        /* Модальное окно */
+        .journal-card {
+            background: #0f0f0f;
+            margin: 12px 14px;
+            padding: 14px;
+            border-radius: 16px;
+            border: 1px solid #252525;
+        }
+
+        .reset-buttons {
+            display: flex;
+            gap: 12px;
+            margin: 20px 14px;
+            flex-wrap: wrap;
+        }
+
+        .reset-btn {
+            flex: 1;
+            background: #1e1e1e;
+            border: 1px solid #e05a3a;
+            padding: 14px;
+            border-radius: 40px;
+            color: #e05a3a;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.1s;
+        }
+
+        .reset-btn:active {
+            background: #e05a3a;
+            color: #0a0a0a;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -298,10 +453,6 @@
             text-align: center;
         }
 
-        .alt-btn:active {
-            background: #e05a3a;
-        }
-
         .close-modal {
             background: #2a2a2a;
             border: none;
@@ -311,7 +462,6 @@
             margin-top: 10px;
             width: 100%;
             border-radius: 40px;
-            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -321,14 +471,31 @@
         <h1>⚡ IRON MASSACRE</h1>
     </div>
 
-    <div class="grid-days" id="app"></div>
+    <!-- АГРЕССИВНАЯ ШКАЛА МЕСЯЧНОГО ПРОГРЕССА -->
+    <div class="month-progress">
+        <div class="progress-header">
+            <span class="progress-label">🔥 МЕСЯЧНЫЙ ПРОГРЕСС 🔥</span>
+            <span class="progress-value" id="monthProgressText">0/15</span>
+        </div>
+        <div class="fire-bar-container">
+            <div class="fire-bar-fill" id="monthProgressFill">
+                <div class="fire-spark"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="app"></div>
+
+    <div class="reset-buttons">
+        <div class="reset-btn" id="resetCheckboxesBtn">❌ СБРОСИТЬ ВСЕ ОТМЕТКИ</div>
+        <div class="reset-btn" id="resetAllDataBtn">⚠️ ОЧИСТИТЬ ВСЕ ДАННЫЕ</div>
+    </div>
 
     <div class="footer-note">
         💀 КЛИК ПО НАЗВАНИЮ → АЛЬТЕРНАТИВЫ | КЛИК ПО ШАПКЕ → СВЕРНУТЬ 💀
     </div>
 </div>
 
-<!-- Модалка альтернатив -->
 <div id="altModal" class="modal">
     <div class="modal-content">
         <h3 id="modalTitle"></h3>
@@ -338,208 +505,320 @@
 </div>
 
 <script>
-    // ----- ДАННЫЕ ТРЕНИРОВОК -----
-    const workoutData = {
-        monday: {
-            name: "ПН — ТЯЖЁЛЫЙ НИЗ + КОР",
-            focus: "🔥 ПРИСЕД | РУМЫНКА | ПРЕСС",
+    const dayTemplates = {
+        monday: { name: "ПН — ТЯЖЁЛЫЙ НИЗ + КОР", focus: "ПРИСЕД | РУМЫНКА | ПРЕСС",
             exercises: [
-                { id: "squat", name: "🏋️ ПРИСЕДАНИЯ СО ШТАНГОЙ", target: "85кг x5 / 90кг x3 / 85кг x4", weightId: "squat_weight", repsId: "squat_reps", commId: "squat_comm" },
-                { id: "rdl", name: "🦵 РУМЫНСКАЯ ТЯГА", target: "70кг x 8-10 / 3 подхода", weightId: "rdl_weight", repsId: "rdl_reps", commId: "rdl_comm" },
-                { id: "lunges", name: "🏃 ВЫПАДЫ С ГАНТЕЛЯМИ", target: "16-18кг x 10 (каждая нога)", weightId: "lunges_weight", repsId: "lunges_reps", commId: "lunges_comm" },
-                { id: "calves", name: "🐮 ПОДЪЁМЫ НА НОСКИ", target: "100кг x 15-20 / 4 подхода", weightId: "calves_weight", repsId: "calves_reps", commId: "calves_comm" },
-                { id: "crunch", name: "💥 СКРУЧИВАНИЯ (пресс)", target: "вес тела / 20-25 / 3-4 подхода", weightId: "crunch_weight", repsId: "crunch_reps", commId: "crunch_comm" }
-            ]
-        },
-        wednesday: {
-            name: "СР — ЖИМ + ТРИЦЕПС",
-            focus: "💪 ПРОБИВАЕМ ПЛАТО",
+                { id: "squat", name: "🏋️ ПРИСЕДАНИЯ СО ШТАНГОЙ", target: "85кг x5 / 90кг x3 / 85кг x4", weightId: "squat", repsId: "squat_reps", commId: "squat_comm" },
+                { id: "rdl", name: "🦵 РУМЫНСКАЯ ТЯГА", target: "70кг x 8-10 / 3 подхода", weightId: "rdl", repsId: "rdl_reps", commId: "rdl_comm" },
+                { id: "lunges", name: "🏃 ВЫПАДЫ С ГАНТЕЛЯМИ", target: "16-18кг x 10 (каждая нога)", weightId: "lunges", repsId: "lunges_reps", commId: "lunges_comm" },
+                { id: "calves", name: "🐮 ПОДЪЁМЫ НА НОСКИ", target: "100кг x 15-20 / 4 подхода", weightId: "calves", repsId: "calves_reps", commId: "calves_comm" },
+                { id: "crunch", name: "💥 СКРУЧИВАНИЯ (пресс)", target: "вес тела / 20-25 / 3-4 подхода", weightId: "crunch", repsId: "crunch_reps", commId: "crunch_comm" }
+            ] },
+        wednesday: { name: "СР — ЖИМ + ТРИЦЕПС", focus: "ПРОБИВАЕМ ПЛАТО",
             exercises: [
-                { id: "bench", name: "🏆 ЖИМ ЛЕЖА", target: "70x6 / 70x5 / 65x8", weightId: "bench_weight", repsId: "bench_reps", commId: "bench_comm" },
-                { id: "incline", name: "📐 ЖИМ ГАНТЕЛЕЙ НАКЛОН", target: "20кг x 10-12 / 3 подхода", weightId: "db_incline_weight", repsId: "db_incline_reps", commId: "db_incline_comm" },
-                { id: "shoulders", name: "⚡ МАХИ + ЖИМ СИДЯ", target: "9кг + 14кг / 3 сета", weightId: "shoulders_weight", repsId: "shoulders_reps", commId: "shoulders_comm" },
-                { id: "dips", name: "🥇 БРУСЬЯ С ВЕСОМ", target: "+5кг x 10-12 / 3 подхода", weightId: "dips_weight", repsId: "dips_reps", commId: "dips_comm" },
-                { id: "french", name: "🔨 ФРАНЦУЗСКИЙ ЖИМ", target: "25-30кг x 10-12", weightId: "french_weight", repsId: "french_reps", commId: "french_comm" },
-                { id: "pushdown", name: "⛓️ РАЗГИБАНИЯ В БЛОКЕ", target: "20-25кг x 12-15", weightId: "pushdown_weight", repsId: "pushdown_reps", commId: "pushdown_comm" }
-            ]
-        },
-        friday: {
-            name: "ПТ — СПИНА / БИЦЕПС",
-            focus: "🔥 ШИРИНА + ТОЛЩИНА",
+                { id: "bench", name: "🏆 ЖИМ ЛЕЖА", target: "70x6 / 70x5 / 65x8", weightId: "bench", repsId: "bench_reps", commId: "bench_comm" },
+                { id: "incline", name: "📐 ЖИМ ГАНТЕЛЕЙ НАКЛОН", target: "20кг x 10-12 / 3 подхода", weightId: "incline", repsId: "incline_reps", commId: "incline_comm" },
+                { id: "shoulders", name: "⚡ МАХИ + ЖИМ СИДЯ", target: "9кг + 14кг / 3 сета", weightId: "shoulders", repsId: "shoulders_reps", commId: "shoulders_comm" },
+                { id: "dips", name: "🥇 БРУСЬЯ С ВЕСОМ", target: "+5кг x 10-12 / 3 подхода", weightId: "dips", repsId: "dips_reps", commId: "dips_comm" },
+                { id: "french", name: "🔨 ФРАНЦУЗСКИЙ ЖИМ", target: "25-30кг x 10-12", weightId: "french", repsId: "french_reps", commId: "french_comm" },
+                { id: "pushdown", name: "⛓️ РАЗГИБАНИЯ В БЛОКЕ", target: "20-25кг x 12-15", weightId: "pushdown", repsId: "pushdown_reps", commId: "pushdown_comm" }
+            ] },
+        friday: { name: "ПТ — СПИНА / БИЦЕПС", focus: "ШИРИНА + ТОЛЩИНА",
             exercises: [
-                { id: "pullup", name: "🦍 ПОДТЯГИВАНИЯ С ВЕСОМ", target: "+7.5кг x 8 / 3 подхода", weightId: "pull_weight", repsId: "pull_reps", commId: "pull_comm" },
-                { id: "bentrow", name: "🎯 ТЯГА ШТАНГИ В НАКЛОНЕ", target: "50кг x 10-12 / 3 подхода", weightId: "barbell_row_weight", repsId: "barbell_row_reps", commId: "barbell_row_comm" },
-                { id: "lowrow", name: "🔽 ТЯГА НИЖНЕГО БЛОКА", target: "55-60кг x 12-15", weightId: "low_row_weight", repsId: "low_row_reps", commId: "low_row_comm" },
-                { id: "shrugs", name: "⛰️ ШРАГИ", target: "45-55кг x 12-15", weightId: "shrugs_weight", repsId: "shrugs_reps", commId: "shrugs_comm" },
-                { id: "bicep", name: "💪 СГИБАНИЯ НА БИЦЕПС", target: "17кг x 8-10 / 3 подхода", weightId: "bicep_weight", repsId: "bicep_reps", commId: "bicep_comm" },
-                { id: "hammer", name: "🔨 МОЛОТКИ", target: "14-16кг x 10-12", weightId: "hammer_weight", repsId: "hammer_reps", commId: "hammer_comm" }
-            ]
-        }
+                { id: "pullup", name: "🦍 ПОДТЯГИВАНИЯ С ВЕСОМ", target: "+7.5кг x 8 / 3 подхода", weightId: "pullup", repsId: "pullup_reps", commId: "pullup_comm" },
+                { id: "bentrow", name: "🎯 ТЯГА ШТАНГИ В НАКЛОНЕ", target: "50кг x 10-12 / 3 подхода", weightId: "bentrow", repsId: "bentrow_reps", commId: "bentrow_comm" },
+                { id: "lowrow", name: "🔽 ТЯГА НИЖНЕГО БЛОКА", target: "55-60кг x 12-15", weightId: "lowrow", repsId: "lowrow_reps", commId: "lowrow_comm" },
+                { id: "shrugs", name: "⛰️ ШРАГИ", target: "45-55кг x 12-15", weightId: "shrugs", repsId: "shrugs_reps", commId: "shrugs_comm" },
+                { id: "bicep", name: "💪 СГИБАНИЯ НА БИЦЕПС", target: "17кг x 8-10 / 3 подхода", weightId: "bicep", repsId: "bicep_reps", commId: "bicep_comm" },
+                { id: "hammer", name: "🔨 МОЛОТКИ", target: "14-16кг x 10-12", weightId: "hammer", repsId: "hammer_reps", commId: "hammer_comm" }
+            ] }
     };
 
-    // АЛЬТЕРНАТИВЫ
-    const alternatives = {
-        squat: { name: "🏋️ ПРИСЕДАНИЯ СО ШТАНГОЙ", alt1: "🏋️ Жим ногами в тренажёре", alt2: "🏋️ Гоблет-присед" },
-        rdl: { name: "🦵 РУМЫНСКАЯ ТЯГА", alt1: "🦵 Гиперэкстензия", alt2: "🦵 Сгибания ног лёжа" },
-        lunges: { name: "🏃 ВЫПАДЫ С ГАНТЕЛЯМИ", alt1: "🏃 Болгарские сплит-приседы", alt2: "🏃 Зашагивания" },
-        calves: { name: "🐮 ПОДЪЁМЫ НА НОСКИ", alt1: "🐮 На носки сидя", alt2: "🐮 Осёл со штангой" },
-        crunch: { name: "💥 СКРУЧИВАНИЯ", alt1: "💥 Подъёмы ног в висе", alt2: "💥 Планка с весом" },
-        bench: { name: "🏆 ЖИМ ЛЕЖА", alt1: "🏆 Жим гантелей", alt2: "🏆 Жим в Смите" },
-        incline: { name: "📐 ЖИМ ГАНТЕЛЕЙ НАКЛОН", alt1: "📐 Жим на верхнем блоке", alt2: "📐 Жим лежа негатив" },
-        shoulders: { name: "⚡ МАХИ + ЖИМ", alt1: "⚡ Тяга к подбородку", alt2: "⚡ Махи в кроссовере" },
-        dips: { name: "🥇 БРУСЬЯ С ВЕСОМ", alt1: "🥇 Жим узким хватом", alt2: "🥇 Разгибания из-за головы" },
-        french: { name: "🔨 ФРАНЦУЗСКИЙ ЖИМ", alt1: "🔨 Разгибания с гантелью", alt2: "🔨 Кикбэк" },
-        pushdown: { name: "⛓️ РАЗГИБАНИЯ В БЛОКЕ", alt1: "⛓️ Обратным хватом", alt2: "⛓️ Одной рукой" },
-        pullup: { name: "🦍 ПОДТЯГИВАНИЯ", alt1: "🦍 Тяга верха широко", alt2: "🦍 Тяга гравитрона" },
-        bentrow: { name: "🎯 ТЯГА ШТАНГИ", alt1: "🎯 Тяга Т-грифа", alt2: "🎯 Тяга гантели" },
-        lowrow: { name: "🔽 ТЯГА НИЖНЕГО БЛОКА", alt1: "🔽 Тяга в Hammer", alt2: "🔽 Тяга эспандера" },
-        shrugs: { name: "⛰️ ШРАГИ", alt1: "⛰️ Шраги с гантелями", alt2: "⛰️ В тренажёре" },
-        bicep: { name: "💪 СГИБАНИЯ НА БИЦЕПС", alt1: "💪 Со штангой", alt2: "💪 Проповеднические" },
-        hammer: { name: "🔨 МОЛОТКИ", alt1: "🔨 С канатом", alt2: "🔨 Реверсивные" }
-    };
+    const alternatives = {};
+    const altList = [
+        ["squat","🏋️ ПРИСЕДАНИЯ СО ШТАНГОЙ","🏋️ Жим ногами","🏋️ Гоблет-присед"],
+        ["rdl","🦵 РУМЫНСКАЯ ТЯГА","🦵 Гиперэкстензия","🦵 Сгибания ног лёжа"],
+        ["lunges","🏃 ВЫПАДЫ С ГАНТЕЛЯМИ","🏃 Болгарские сплит-приседы","🏃 Зашагивания"],
+        ["calves","🐮 ПОДЪЁМЫ НА НОСКИ","🐮 На носки сидя","🐮 Осёл со штангой"],
+        ["crunch","💥 СКРУЧИВАНИЯ","💥 Подъёмы ног в висе","💥 Планка с весом"],
+        ["bench","🏆 ЖИМ ЛЕЖА","🏆 Жим гантелей","🏆 Жим в Смите"],
+        ["incline","📐 ЖИМ ГАНТЕЛЕЙ НАКЛОН","📐 Жим на верхнем блоке","📐 Жим лежа негатив"],
+        ["shoulders","⚡ МАХИ + ЖИМ","⚡ Тяга к подбородку","⚡ Махи в кроссовере"],
+        ["dips","🥇 БРУСЬЯ С ВЕСОМ","🥇 Жим узким хватом","🥇 Разгибания из-за головы"],
+        ["french","🔨 ФРАНЦУЗСКИЙ ЖИМ","🔨 Разгибания с гантелью","🔨 Кикбэк"],
+        ["pushdown","⛓️ РАЗГИБАНИЯ В БЛОКЕ","⛓️ Обратным хватом","⛓️ Одной рукой"],
+        ["pullup","🦍 ПОДТЯГИВАНИЯ","🦍 Тяга верха широко","🦍 Тяга гравитрона"],
+        ["bentrow","🎯 ТЯГА ШТАНГИ","🎯 Тяга Т-грифа","🎯 Тяга гантели"],
+        ["lowrow","🔽 ТЯГА НИЖНЕГО БЛОКА","🔽 Тяга в Hammer","🔽 Тяга эспандера"],
+        ["shrugs","⛰️ ШРАГИ","⛰️ Шраги с гантелями","⛰️ В тренажёре"],
+        ["bicep","💪 СГИБАНИЯ НА БИЦЕПС","💪 Со штангой","💪 Проповеднические"],
+        ["hammer","🔨 МОЛОТКИ","🔨 С канатом","🔨 Реверсивные"]
+    ];
+    altList.forEach(a => { alternatives[a[0]] = { name: a[1], alt1: a[2], alt2: a[3] }; });
 
-    let currentExId = null;
-    let currentCard = null;
-
-    function openModal(exId, cardElement) {
-        currentExId = exId;
-        currentCard = cardElement;
+    let currentExId = null, currentCard = null, currentWeek = null, currentDay = null;
+    function openModal(exId, cardElement, weekIdx, dayKey) {
+        currentExId = exId; currentCard = cardElement; currentWeek = weekIdx; currentDay = dayKey;
         const alt = alternatives[exId];
         if (!alt) return;
         document.getElementById("modalTitle").innerText = alt.name;
         const btnsDiv = document.getElementById("modalButtons");
         btnsDiv.innerHTML = "";
-        const btn1 = document.createElement("button");
-        btn1.className = "alt-btn";
-        btn1.innerText = alt.alt1;
-        btn1.onclick = () => applyAlternative(alt.alt1);
-        const btn2 = document.createElement("button");
-        btn2.className = "alt-btn";
-        btn2.innerText = alt.alt2;
-        btn2.onclick = () => applyAlternative(alt.alt2);
-        btnsDiv.appendChild(btn1);
-        btnsDiv.appendChild(btn2);
+        [alt.alt1, alt.alt2].forEach(a => {
+            const btn = document.createElement("button");
+            btn.className = "alt-btn";
+            btn.innerText = a;
+            btn.onclick = () => {
+                if(currentCard) {
+                    const span = currentCard.querySelector(".clickable-name");
+                    if(span) span.innerText = a;
+                    localStorage.setItem(`alt_${currentWeek}_${currentDay}_${currentExId}`, a);
+                }
+                closeModal();
+            };
+            btnsDiv.appendChild(btn);
+        });
         document.getElementById("altModal").style.display = "flex";
     }
-
-    function applyAlternative(newName) {
-        if (currentCard) {
-            const nameSpan = currentCard.querySelector(".clickable-name");
-            if (nameSpan) nameSpan.innerText = newName;
-            localStorage.setItem(`alt_${currentExId}`, newName);
-        }
-        closeModal();
-    }
-
-    function resetToOriginal(exId, cardElement) {
+    function resetToOriginal(exId, card, weekIdx, dayKey) {
         const alt = alternatives[exId];
-        if (alt && alt.name) {
-            const nameSpan = cardElement.querySelector(".clickable-name");
-            if (nameSpan) nameSpan.innerText = alt.name;
-            localStorage.removeItem(`alt_${exId}`);
+        if(alt?.name) {
+            const span = card.querySelector(".clickable-name");
+            if(span) span.innerText = alt.name;
+            localStorage.removeItem(`alt_${weekIdx}_${dayKey}_${exId}`);
+        }
+    }
+    function closeModal() { document.getElementById("altModal").style.display = "none"; }
+
+    let checkedBoxes = new Set();
+
+    function loadCheckboxes() {
+        const saved = localStorage.getItem("workoutCheckboxes");
+        if(saved) checkedBoxes = new Set(JSON.parse(saved));
+        updateMonthProgress();
+    }
+
+    function toggleCheckbox(weekNum, dayKey) {
+        const key = `${weekNum}_${dayKey}`;
+        if(checkedBoxes.has(key)) checkedBoxes.delete(key);
+        else checkedBoxes.add(key);
+        localStorage.setItem("workoutCheckboxes", JSON.stringify([...checkedBoxes]));
+        updateMonthProgress();
+        renderAllCheckCircles();
+        renderWeekStats();
+    }
+
+    function isCheckboxChecked(weekNum, dayKey) {
+        return checkedBoxes.has(`${weekNum}_${dayKey}`);
+    }
+
+    function getWeekTrainingCount(weekNum) {
+        let cnt = 0;
+        if(isCheckboxChecked(weekNum, "monday")) cnt++;
+        if(isCheckboxChecked(weekNum, "wednesday")) cnt++;
+        if(isCheckboxChecked(weekNum, "friday")) cnt++;
+        return cnt;
+    }
+
+    function getTotalTrainingCount() {
+        let total = 0;
+        for(let w=0; w<5; w++) total += getWeekTrainingCount(w);
+        return total;
+    }
+
+    function updateMonthProgress() {
+        const total = getTotalTrainingCount();
+        const percent = (total / 15) * 100;
+        const fillBar = document.getElementById("monthProgressFill");
+        fillBar.style.width = `${percent}%`;
+        document.getElementById("monthProgressText").innerHTML = `${total}/15`;
+        
+        if(total === 15) {
+            fillBar.classList.add("complete");
+        } else {
+            fillBar.classList.remove("complete");
         }
     }
 
-    function closeModal() {
-        document.getElementById("altModal").style.display = "none";
+    function renderWeekStats() {
+        for(let i=0; i<5; i++) {
+            const statSpan = document.getElementById(`weekStats_${i}`);
+            if(statSpan) statSpan.innerText = `${getWeekTrainingCount(i)}/3`;
+        }
+        updateMonthProgress();
     }
 
-    // Рендер приложения
+    function renderAllCheckCircles() {
+        document.querySelectorAll('.check-circle').forEach(circle => {
+            const week = parseInt(circle.dataset.week);
+            const day = circle.dataset.day;
+            if(isCheckboxChecked(week, day)) circle.classList.add('checked');
+            else circle.classList.remove('checked');
+        });
+    }
+
+    function saveAllData() {
+        const inputs = document.querySelectorAll('input, textarea');
+        const data = {};
+        inputs.forEach(inp => { if(inp.id) data[inp.id] = inp.value; });
+        localStorage.setItem('ironTrainingLog', JSON.stringify(data));
+    }
+
+    function loadAllData() {
+        const saved = localStorage.getItem('ironTrainingLog');
+        if(saved) try { const data = JSON.parse(saved); for(const [id,val] of Object.entries(data)) { const el=document.getElementById(id); if(el) el.value=val; } } catch(e) {}
+    }
+
+    function resetAllCheckboxes() {
+        checkedBoxes.clear();
+        localStorage.setItem("workoutCheckboxes", JSON.stringify([]));
+        updateMonthProgress();
+        renderWeekStats();
+        renderAllCheckCircles();
+    }
+
+    function resetAllFormData() {
+        if(confirm("⚠️ Ты уверен? Это очистит ВСЕ данные: вес, повторения, комментарии, альтернативы и отметки тренировок. Отменить будет нельзя.")) {
+            localStorage.clear();
+            location.reload();
+        }
+    }
+
     function render() {
         const app = document.getElementById("app");
         app.innerHTML = "";
-        for (const [dayKey, day] of Object.entries(workoutData)) {
-            const dayDiv = document.createElement("div");
-            dayDiv.className = "day-card";
-            dayDiv.setAttribute("data-day", dayKey);
+        for(let weekNum=0; weekNum<5; weekNum++) {
+            const weekBlock = document.createElement("div");
+            weekBlock.className = "week-block";
             
-            // Шапка (кликабельная)
-            const headerDiv = document.createElement("div");
-            headerDiv.className = "day-header";
-            headerDiv.innerHTML = `
-                <div class="day-info">
-                    <div class="day-name">${day.name}</div>
-                    <div class="day-focus">${day.focus}</div>
+            const weekHeader = document.createElement("div");
+            weekHeader.className = "week-header";
+            weekHeader.innerHTML = `
+                <div>
+                    <div class="week-title">🗓️ ${weekNum+1}-я НЕДЕЛЯ</div>
+                    <div class="week-stats" id="weekStats_${weekNum}">0/3</div>
                 </div>
-                <div class="toggle-icon">▼</div>
+                <div class="week-toggle">▼</div>
             `;
             
-            const contentDiv = document.createElement("div");
-            contentDiv.className = "day-content";
+            const weekContent = document.createElement("div");
+            weekContent.className = "week-content";
             
-            day.exercises.forEach(ex => {
-                const card = document.createElement("div");
-                card.className = "exercise-card";
-                card.setAttribute("data-ex-id", ex.id);
-                card.innerHTML = `
-                    <div class="exercise-header">
-                        <div class="exercise-name">
-                            <span class="clickable-name">${ex.name}</span>
-                            <button class="reset-alt-btn" title="Вернуть оригинал">⟳</button>
-                        </div>
+            const days = ["monday", "wednesday", "friday"];
+            days.forEach(dayKey => {
+                const dayTemplate = dayTemplates[dayKey];
+                const dayCard = document.createElement("div");
+                dayCard.className = "day-card";
+                
+                const dayHeader = document.createElement("div");
+                dayHeader.className = "day-header";
+                
+                const isChecked = isCheckboxChecked(weekNum, dayKey);
+                
+                dayHeader.innerHTML = `
+                    <div class="day-info">
+                        <div class="day-name">${dayTemplate.name}</div>
+                        <div class="day-focus">${dayTemplate.focus}</div>
                     </div>
-                    <div class="target-info">🎯 ${ex.target}</div>
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label>ВЕС (кг)</label>
-                            <input type="text" class="input-field" id="${ex.weightId}" placeholder="например, 85">
-                        </div>
-                        <div class="input-group">
-                            <label>ПОДХОДЫ / ПОВТОРЕНИЯ</label>
-                            <input type="text" class="input-field" id="${ex.repsId}" placeholder="3x5, 5,3,4...">
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label>КОММЕНТАРИЙ</label>
-                        <input type="text" class="comment-input" id="${ex.commId}" placeholder="ощущения, боль, отказ">
+                    <div class="day-controls">
+                        <div class="check-circle ${isChecked ? 'checked' : ''}" data-week="${weekNum}" data-day="${dayKey}"></div>
+                        <div class="day-toggle">▼</div>
                     </div>
                 `;
-                contentDiv.appendChild(card);
                 
-                // клик по названию (альтернативы)
-                const clickable = card.querySelector(".clickable-name");
-                clickable.addEventListener("click", (e) => {
-                    e.stopPropagation();
-                    openModal(ex.id, card);
+                const dayContent = document.createElement("div");
+                dayContent.className = "day-content";
+                
+                dayTemplate.exercises.forEach(ex => {
+                    const exId = `${ex.id}_w${weekNum}`;
+                    const card = document.createElement("div");
+                    card.className = "exercise-card";
+                    card.innerHTML = `
+                        <div class="exercise-header">
+                            <div class="exercise-name">
+                                <span class="clickable-name">${ex.name}</span>
+                                <button class="reset-alt-btn" title="Вернуть оригинал">⟳</button>
+                            </div>
+                        </div>
+                        <div class="target-info">🎯 ${ex.target}</div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label>ВЕС (кг)</label>
+                                <input type="text" class="input-field" id="${exId}_${ex.weightId}" placeholder="вес">
+                            </div>
+                            <div class="input-group">
+                                <label>ПОДХОДЫ / ПОВТОРЕНИЯ</label>
+                                <input type="text" class="input-field" id="${exId}_${ex.repsId}" placeholder="3x5 или 5,5,5">
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>КОММЕНТАРИЙ</label>
+                            <input type="text" class="comment-input" id="${exId}_${ex.commId}" placeholder="ощущения">
+                        </div>
+                    `;
+                    dayContent.appendChild(card);
+                    
+                    const clickable = card.querySelector(".clickable-name");
+                    clickable.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        openModal(ex.id, card, weekNum, dayKey);
+                    });
+                    card.querySelector(".reset-alt-btn").addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        resetToOriginal(ex.id, card, weekNum, dayKey);
+                    });
+                    const savedAlt = localStorage.getItem(`alt_${weekNum}_${dayKey}_${ex.id}`);
+                    if(savedAlt && clickable) clickable.innerText = savedAlt;
                 });
-                const resetBtn = card.querySelector(".reset-alt-btn");
-                resetBtn.addEventListener("click", (e) => {
+                
+                dayCard.appendChild(dayHeader);
+                dayCard.appendChild(dayContent);
+                weekContent.appendChild(dayCard);
+                
+                const checkCircle = dayHeader.querySelector(".check-circle");
+                checkCircle.addEventListener("click", (e) => {
                     e.stopPropagation();
-                    resetToOriginal(ex.id, card);
+                    const w = parseInt(checkCircle.dataset.week);
+                    const d = checkCircle.dataset.day;
+                    toggleCheckbox(w, d);
                 });
-                // восстановление сохранённой альтернативы
-                const savedAlt = localStorage.getItem(`alt_${ex.id}`);
-                if (savedAlt && clickable) clickable.innerText = savedAlt;
+                
+                const dayToggle = dayHeader.querySelector(".day-toggle");
+                const dayCollapsedKey = `day_${weekNum}_${dayKey}_collapsed`;
+                if(localStorage.getItem(dayCollapsedKey) === "true") {
+                    dayContent.classList.add("collapsed");
+                    dayToggle.innerHTML = "▶";
+                }
+                dayHeader.addEventListener("click", (e) => {
+                    if(e.target === checkCircle || checkCircle.contains(e.target)) return;
+                    const now = dayContent.classList.toggle("collapsed");
+                    localStorage.setItem(dayCollapsedKey, now);
+                    dayToggle.innerHTML = now ? "▶" : "▼";
+                });
             });
             
-            dayDiv.appendChild(headerDiv);
-            dayDiv.appendChild(contentDiv);
-            app.appendChild(dayDiv);
+            weekBlock.appendChild(weekHeader);
+            weekBlock.appendChild(weekContent);
+            app.appendChild(weekBlock);
             
-            // --- Логика сворачивания/разворачивания с сохранением ---
-            const toggleIcon = headerDiv.querySelector(".toggle-icon");
-            const collapsedKey = `collapsed_${dayKey}`;
-            const isCollapsed = localStorage.getItem(collapsedKey) === "true";
-            if (isCollapsed) {
-                contentDiv.classList.add("collapsed");
-                toggleIcon.innerHTML = "▶";
+            const weekToggle = weekHeader.querySelector(".week-toggle");
+            const weekCollapsedKey = `week_${weekNum}_collapsed`;
+            if(localStorage.getItem(weekCollapsedKey) === "true") {
+                weekContent.classList.add("collapsed");
+                weekToggle.innerHTML = "▶";
             }
-            headerDiv.addEventListener("click", () => {
-                const nowCollapsed = contentDiv.classList.toggle("collapsed");
-                localStorage.setItem(collapsedKey, nowCollapsed);
-                toggleIcon.innerHTML = nowCollapsed ? "▶" : "▼";
+            weekHeader.addEventListener("click", () => {
+                const now = weekContent.classList.toggle("collapsed");
+                localStorage.setItem(weekCollapsedKey, now);
+                weekToggle.innerHTML = now ? "▶" : "▼";
             });
         }
         
-        // Журнал силы (отдельная карточка)
-        const journalCard = document.createElement("div");
-        journalCard.className = "day-card";
-        journalCard.innerHTML = `
-            <div class="day-header" style="cursor:default; border-left-color:#e05a3a;">
-                <div class="day-info">
-                    <div class="day-name">📝 ЖУРНАЛ СИЛЫ</div>
-                    <div class="day-focus">ДВОЙНАЯ ПРОГРЕССИЯ</div>
-                </div>
+        const journalBlock = document.createElement("div");
+        journalBlock.className = "week-block";
+        journalBlock.innerHTML = `
+            <div class="week-header" style="cursor:default;">
+                <div><div class="week-title">📝 ЖУРНАЛ СИЛЫ</div><div class="week-stats">ДВОЙНАЯ ПРОГРЕССИЯ</div></div>
             </div>
             <div class="journal-card">
                 <input type="text" class="comment-input" id="bench_note" placeholder="Жим: 70x6 → 72.5x6" style="margin-bottom:12px;">
@@ -547,40 +826,25 @@
                 <input type="text" class="comment-input" id="squat_note" placeholder="Присед: цель 90х3">
             </div>
         `;
-        app.appendChild(journalCard);
-    }
-
-    function saveAllData() {
-        const inputs = document.querySelectorAll('input, textarea');
-        const data = {};
-        inputs.forEach(input => {
-            if (input.id) data[input.id] = input.value;
-        });
-        localStorage.setItem('ironTrainingLog', JSON.stringify(data));
-    }
-
-    function loadAllData() {
-        const saved = localStorage.getItem('ironTrainingLog');
-        if (!saved) return;
-        try {
-            const data = JSON.parse(saved);
-            for (const [id, value] of Object.entries(data)) {
-                const el = document.getElementById(id);
-                if (el) el.value = value;
-            }
-        } catch(e) {}
+        app.appendChild(journalBlock);
+        
+        renderWeekStats();
+        loadAllData();
     }
 
     function attachAutoSave() {
         document.addEventListener('input', (e) => {
-            if (e.target.matches('input, textarea')) saveAllData();
+            if(e.target.matches('input, textarea')) saveAllData();
         });
     }
 
     render();
-    loadAllData();
+    loadCheckboxes();
     attachAutoSave();
     window.addEventListener('beforeunload', () => saveAllData());
+
+    document.getElementById("resetCheckboxesBtn").addEventListener("click", resetAllCheckboxes);
+    document.getElementById("resetAllDataBtn").addEventListener("click", resetAllFormData);
 </script>
 </body>
 </html>
