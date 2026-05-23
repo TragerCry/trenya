@@ -12,9 +12,9 @@
         }
 
         body {
-            background: #0b0b0b;
+            background: #0a0a0a;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: #e0e0e0;
+            color: #e8e8e8;
             padding: 16px 12px;
             font-size: 16px;
         }
@@ -26,68 +26,94 @@
 
         /* ХЕДЕР */
         .header {
-            border-bottom: 4px solid #c33c2e;
+            border-bottom: 3px solid #e05a3a;
             margin-bottom: 24px;
             padding-bottom: 12px;
         }
 
         h1 {
-            font-size: 2.2rem;
-            letter-spacing: 2px;
+            font-size: 2rem;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            font-weight: 900;
-            background: linear-gradient(135deg, #fff 30%, #c33c2e 80%);
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 20%, #e05a3a 80%);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
         }
 
-        /* ДНИ */
-        .grid-days {
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-        }
-
+        /* ДНИ - карточки */
         .day-card {
-            background: #111;
-            border: 1px solid #2c2c2c;
-            border-radius: 12px;
+            background: #121212;
+            border-radius: 18px;
+            margin-bottom: 20px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            border: 1px solid #252525;
         }
 
+        /* ШАПКА ДНЯ - кликабельная шторка */
         .day-header {
-            background: #1a1a1a;
+            background: #1c1c1c;
             padding: 16px 18px;
-            border-left: 6px solid #c33c2e;
-            border-bottom: 1px solid #2c2c2c;
+            cursor: pointer;
+            transition: background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid #e05a3a;
+        }
+
+        .day-header:active {
+            background: #262626;
+        }
+
+        .day-info {
+            flex: 1;
         }
 
         .day-name {
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #f5f5f5;
+            letter-spacing: 0.5px;
+            color: #f0f0f0;
         }
 
         .day-focus {
-            color: #c33c2e;
-            font-weight: bold;
-            font-size: 0.75rem;
-            margin-top: 6px;
+            color: #e05a3a;
+            font-weight: 600;
+            font-size: 0.7rem;
+            margin-top: 4px;
             text-transform: uppercase;
         }
 
-        /* КАРТОЧКА УПРАЖНЕНИЯ (для мобилки) */
+        .toggle-icon {
+            font-size: 1.6rem;
+            color: #e05a3a;
+            transition: transform 0.2s;
+            width: 32px;
+            text-align: center;
+        }
+
+        /* Контент дня (скрывается/показывается) */
+        .day-content {
+            display: block;
+            padding: 8px 0 12px 0;
+        }
+
+        .day-content.collapsed {
+            display: none;
+        }
+
+        /* КАРТОЧКА УПРАЖНЕНИЯ */
         .exercise-card {
-            background: #0d0d0d;
+            background: #0f0f0f;
             margin: 12px 14px;
             padding: 14px;
-            border-radius: 14px;
-            border: 1px solid #222;
-            transition: 0.2s;
+            border-radius: 16px;
+            border: 1px solid #252525;
+            transition: 0.15s;
         }
 
         .exercise-header {
@@ -95,52 +121,61 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             gap: 8px;
         }
 
         .exercise-name {
             font-weight: 800;
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #ffffff;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .clickable-name {
-            color: #c33c2e;
-            border-bottom: 1px dashed #c33c2e;
-            padding-bottom: 2px;
+            background: #e05a3a20;
+            color: #e05a3a;
+            border-radius: 20px;
+            padding: 4px 12px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            border: 0.5px solid #e05a3a60;
+            transition: 0.15s;
+        }
+
+        .clickable-name:active {
+            background: #e05a3a;
+            color: white;
         }
 
         .reset-alt-btn {
-            background: none;
+            background: #1e1e1e;
             border: none;
-            color: #666;
+            color: #888;
             cursor: pointer;
-            font-size: 1.1rem;
-            padding: 4px 8px;
-            transition: 0.2s;
+            font-size: 1rem;
+            padding: 4px 10px;
+            border-radius: 30px;
+            transition: 0.15s;
         }
 
         .reset-alt-btn:active {
-            color: #c33c2e;
-            transform: rotate(180deg);
+            color: #e05a3a;
+            background: #2a2a2a;
         }
 
         .target-info {
             font-family: monospace;
-            font-size: 0.8rem;
-            color: #c33c2e;
+            font-size: 0.75rem;
+            color: #e05a3a;
             background: #1a1a1a;
-            padding: 6px 10px;
-            border-radius: 8px;
-            margin-bottom: 14px;
+            padding: 6px 12px;
+            border-radius: 20px;
             display: inline-block;
+            margin-bottom: 12px;
         }
 
         .input-row {
@@ -153,73 +188,69 @@
         .input-group {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 5px;
         }
 
         .input-group label {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            color: #888;
-            letter-spacing: 0.5px;
+            color: #aaa;
+            letter-spacing: 0.8px;
+            font-weight: 600;
         }
 
         .input-field {
-            background: #050505;
-            border: 1px solid #333;
+            background: #060606;
+            border: 1px solid #2c2c2c;
             padding: 12px 12px;
-            color: #f0f0f0;
+            color: #f2f2f2;
             font-weight: 500;
-            font-size: 1rem;
-            border-radius: 10px;
+            font-size: 0.95rem;
+            border-radius: 14px;
             width: 100%;
             font-family: monospace;
         }
 
         .input-field:focus {
             outline: none;
-            border-color: #c33c2e;
+            border-color: #e05a3a;
+            background: #0c0c0c;
         }
 
         .comment-input {
-            background: #050505;
-            border: 1px solid #333;
+            background: #060606;
+            border: 1px solid #2c2c2c;
             padding: 12px 12px;
             color: #cfcfcf;
             width: 100%;
-            font-size: 0.9rem;
-            border-radius: 10px;
-            margin-top: 6px;
-        }
-
-        .comment-input:focus {
-            border-color: #c33c2e;
-            outline: none;
-        }
-
-        .small-note {
-            font-size: 0.65rem;
-            color: #555;
+            font-size: 0.85rem;
+            border-radius: 14px;
             margin-top: 4px;
         }
 
+        .comment-input:focus {
+            border-color: #e05a3a;
+            outline: none;
+        }
+
         .journal-card {
-            background: #0d0d0d;
+            background: #0f0f0f;
             margin: 16px;
             padding: 16px;
-            border-radius: 14px;
+            border-radius: 18px;
             border: 1px solid #2c2c2c;
         }
 
         .footer-note {
             margin-top: 30px;
             background: #0c0c0c;
-            border-top: 2px solid #c33c2e;
-            padding: 16px;
+            border-top: 2px solid #e05a3a;
+            padding: 14px;
             text-align: center;
             font-size: 0.7rem;
             font-weight: bold;
             color: #aaa;
-            border-radius: 8px;
+            border-radius: 40px;
         }
 
         /* Модальное окно */
@@ -230,7 +261,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.96);
             z-index: 1000;
             justify-content: center;
             align-items: center;
@@ -238,71 +269,66 @@
         }
 
         .modal-content {
-            background: #1a1a1a;
-            border-left: 6px solid #c33c2e;
-            max-width: 400px;
+            background: #181818;
+            border-left: 5px solid #e05a3a;
+            max-width: 380px;
             width: 100%;
             padding: 24px;
-            border-radius: 20px;
+            border-radius: 28px;
         }
 
         .modal-content h3 {
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            color: #c33c2e;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #e05a3a;
         }
 
         .alt-btn {
             display: block;
             width: 100%;
-            background: #2a2a2a;
-            border: 1px solid #c33c2e;
+            background: #252525;
+            border: 1px solid #e05a3a;
             padding: 14px;
             margin: 12px 0;
             color: white;
-            font-weight: bold;
-            font-size: 1rem;
-            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 40px;
             cursor: pointer;
-            text-align: left;
+            text-align: center;
         }
 
         .alt-btn:active {
-            background: #c33c2e;
+            background: #e05a3a;
         }
 
         .close-modal {
-            background: #333;
+            background: #2a2a2a;
             border: none;
             padding: 12px;
             color: white;
             cursor: pointer;
             margin-top: 10px;
             width: 100%;
-            border-radius: 12px;
-            font-size: 1rem;
-        }
-
-        hr {
-            border-color: #222;
-            margin: 8px 0;
+            border-radius: 40px;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
-        <h1>IRON MASSACRE</h1>
+        <h1>⚡ IRON MASSACRE</h1>
     </div>
 
     <div class="grid-days" id="app"></div>
 
     <div class="footer-note">
-        💀 КЛИКАЙ ПО НАЗВАНИЮ — ВЫБИРАЙ АЛЬТЕРНАТИВУ | ДАННЫЕ СОХРАНЯЮТСЯ 💀
+        💀 КЛИК ПО НАЗВАНИЮ → АЛЬТЕРНАТИВЫ | КЛИК ПО ШАПКЕ → СВЕРНУТЬ 💀
     </div>
 </div>
 
-<!-- Модалка -->
+<!-- Модалка альтернатив -->
 <div id="altModal" class="modal">
     <div class="modal-content">
         <h3 id="modalTitle"></h3>
@@ -418,21 +444,29 @@
         document.getElementById("altModal").style.display = "none";
     }
 
+    // Рендер приложения
     function render() {
         const app = document.getElementById("app");
         app.innerHTML = "";
         for (const [dayKey, day] of Object.entries(workoutData)) {
             const dayDiv = document.createElement("div");
             dayDiv.className = "day-card";
-            dayDiv.innerHTML = `
-                <div class="day-header">
+            dayDiv.setAttribute("data-day", dayKey);
+            
+            // Шапка (кликабельная)
+            const headerDiv = document.createElement("div");
+            headerDiv.className = "day-header";
+            headerDiv.innerHTML = `
+                <div class="day-info">
                     <div class="day-name">${day.name}</div>
                     <div class="day-focus">${day.focus}</div>
                 </div>
-                <div class="exercises-list" id="${dayKey}-list"></div>
+                <div class="toggle-icon">▼</div>
             `;
-            app.appendChild(dayDiv);
-            const listContainer = dayDiv.querySelector(".exercises-list");
+            
+            const contentDiv = document.createElement("div");
+            contentDiv.className = "day-content";
+            
             day.exercises.forEach(ex => {
                 const card = document.createElement("div");
                 card.className = "exercise-card";
@@ -441,7 +475,7 @@
                     <div class="exercise-header">
                         <div class="exercise-name">
                             <span class="clickable-name">${ex.name}</span>
-                            <button class="reset-alt-btn" title="Вернуть оригинал">↺</button>
+                            <button class="reset-alt-btn" title="Вернуть оригинал">⟳</button>
                         </div>
                     </div>
                     <div class="target-info">🎯 ${ex.target}</div>
@@ -460,9 +494,9 @@
                         <input type="text" class="comment-input" id="${ex.commId}" placeholder="ощущения, боль, отказ">
                     </div>
                 `;
-                listContainer.appendChild(card);
-
-                // клик по названию
+                contentDiv.appendChild(card);
+                
+                // клик по названию (альтернативы)
                 const clickable = card.querySelector(".clickable-name");
                 clickable.addEventListener("click", (e) => {
                     e.stopPropagation();
@@ -477,14 +511,35 @@
                 const savedAlt = localStorage.getItem(`alt_${ex.id}`);
                 if (savedAlt && clickable) clickable.innerText = savedAlt;
             });
+            
+            dayDiv.appendChild(headerDiv);
+            dayDiv.appendChild(contentDiv);
+            app.appendChild(dayDiv);
+            
+            // --- Логика сворачивания/разворачивания с сохранением ---
+            const toggleIcon = headerDiv.querySelector(".toggle-icon");
+            const collapsedKey = `collapsed_${dayKey}`;
+            const isCollapsed = localStorage.getItem(collapsedKey) === "true";
+            if (isCollapsed) {
+                contentDiv.classList.add("collapsed");
+                toggleIcon.innerHTML = "▶";
+            }
+            headerDiv.addEventListener("click", () => {
+                const nowCollapsed = contentDiv.classList.toggle("collapsed");
+                localStorage.setItem(collapsedKey, nowCollapsed);
+                toggleIcon.innerHTML = nowCollapsed ? "▶" : "▼";
+            });
         }
-        // добавить журнал силы
-        const journalDiv = document.createElement("div");
-        journalDiv.className = "day-card";
-        journalDiv.innerHTML = `
-            <div class="day-header">
-                <div class="day-name">📝 ЖУРНАЛ СИЛЫ</div>
-                <div class="day-focus">ДВОЙНАЯ ПРОГРЕССИЯ</div>
+        
+        // Журнал силы (отдельная карточка)
+        const journalCard = document.createElement("div");
+        journalCard.className = "day-card";
+        journalCard.innerHTML = `
+            <div class="day-header" style="cursor:default; border-left-color:#e05a3a;">
+                <div class="day-info">
+                    <div class="day-name">📝 ЖУРНАЛ СИЛЫ</div>
+                    <div class="day-focus">ДВОЙНАЯ ПРОГРЕССИЯ</div>
+                </div>
             </div>
             <div class="journal-card">
                 <input type="text" class="comment-input" id="bench_note" placeholder="Жим: 70x6 → 72.5x6" style="margin-bottom:12px;">
@@ -492,7 +547,7 @@
                 <input type="text" class="comment-input" id="squat_note" placeholder="Присед: цель 90х3">
             </div>
         `;
-        app.appendChild(journalDiv);
+        app.appendChild(journalCard);
     }
 
     function saveAllData() {
